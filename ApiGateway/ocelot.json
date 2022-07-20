@@ -1,0 +1,121 @@
+{
+  "Routes": [
+    //{
+    //  "DownstreamPathTemplate": "/api/Master/masterdata",
+    //  "DownstreamScheme": "https",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": "7088"
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/api/Master/masterdata",
+    //  "UpstreamHttpMethod": [ "GET" ],
+    //  "SwaggerKey": "Airline"
+    //},
+    //{
+    //  "DownstreamPathTemplate": "/WeatherForecast",
+    //  "DownstreamScheme": "https",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 7088
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/WeatherForecast",
+    //  "UpstreamHttpMethod": [ "GET" ],
+    //  "SwaggerKey": "Airline"
+    //},
+    {
+      "UseServiceDiscovery": true,
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "https",
+      "ServiceName": "UserManagement",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "UpstreamPathTemplate": "/user/{everything}",
+      "ReRouteCaseSensitive": false,
+      "SwaggerKey": "UserManagement"
+    },
+    {
+      "UseServiceDiscovery": true,
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "https",
+      "ServiceName": "AirlineManagement",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "UpstreamPathTemplate": "/flight/{everything}",
+      "ReRouteCaseSensitive": false,
+      "SwaggerKey": "AirlineManagement"
+    },
+    {
+      "UseServiceDiscovery": true,
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "https",
+      "ServiceName": "TicketManagement",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "UpstreamPathTemplate": "/ticket/{everything}",
+      "ReRouteCaseSensitive": false,
+      "SwaggerKey": "TicketManagement"
+    }
+
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "UserManagement",
+      "UseServiceDiscovery": true,
+      "ServiceName": "UserManagement",
+      "Config": [
+        {
+          "Name": "UserManagement API",
+          "Version": "v1",
+          "Service": {
+            "Name": "UserManagement",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "AirlineManagement",
+      "UseServiceDiscovery": true,
+      "ServiceName": "AirlineManagement",
+      "Config": [
+        {
+          "Name": "AirlineManagement API",
+          "Version": "v1",
+          "Service": {
+            "Name": "AirlineManagement",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "TicketManagement",
+      "UseServiceDiscovery": true,
+      "ServiceName": "TicketManagement",
+      "Config": [
+        {
+          "Name": "TicketManagement API",
+          "Version": "v1",
+          "Service": {
+            "Name": "TicketManagement",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 8500,
+      "Type": "Consul"
+    }
+  }
+}
