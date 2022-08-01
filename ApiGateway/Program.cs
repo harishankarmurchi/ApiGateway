@@ -14,6 +14,15 @@ IConfiguration configuration = new ConfigurationBuilder()
 builder.Services.AddOcelot(configuration).AddConsul();
 builder.Services.AddSwaggerForOcelot(configuration);
 
+builder.Services.AddCors(c => {
+    c.AddPolicy("CorsPolicy",
+        builder => builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader()
+                          .Build()
+    );
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -31,6 +40,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseCors("CorsPolicy");
 app.UseSwaggerForOcelotUI();
 
 app.MapControllers();
